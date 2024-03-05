@@ -233,5 +233,53 @@ document.addEventListener('DOMContentLoaded', event => {
     window.onerror = e => {
         log(`> ${e}`);
     };
+
+    // Creat chart
+    const ctx = document.getElementById('McpsChart').getContext('2d');
+
+    let dataLabels =
+        [ '1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', '0s' ];
+    let aecData = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+    let nsData  = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+
+    let mcpsChartConfig = {
+        type : 'line',
+        data : {
+            labels : dataLabels,
+            datasets : [
+                {
+                    label : 'AEC',
+                    data : aecData,
+                    backgroundColor : 'rgb(255, 99, 132)',
+                    borderColor : 'rgb(255, 99, 132)',
+                    fill : false,
+                },
+                {
+                    label : 'NS',
+                    data : nsData,
+                    backgroundColor : 'rgb(75, 192, 192)',
+                    borderColor : 'rgb(75, 192, 192)',
+                    fill : false,
+                }
+            ]
+        },
+        options : {
+            responsive : true,
+            animation : false,
+            title : {display : true, text : 'MCPS Real Time Display'},
+            scales : {
+                y : {
+                    suggestedMin : 0,
+                    suggestedMax : 200,
+                }
+            },
+        }
+    };
+
+    let mcpsChart = new Chart(ctx, mcpsChartConfig);
+
+    // Update MCPS every 1 second.
+    setInterval(updateMcps, 1000, mcpsChart, mcpsChartConfig, dataLabels,
+                aecData, nsData);
 });   // DOMContentLoaded
 })(); // function()

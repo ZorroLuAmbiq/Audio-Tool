@@ -1126,3 +1126,15 @@ function writeBuf(buf)
         window.file.write(buf);
     }
 };
+
+/**
+ * @brief Write data into the local file.
+ */
+function receiveMsg(buf)
+{
+    if (window.file)
+    {
+        console.log("buf.byteLength " + buf.byteLength);
+        window.file.write(buf);
+    }
+};
