@@ -11,7 +11,7 @@
  */
 
 /**
- * @brief Get AP5 MCPS through webUSB.
+ * @brief Get random number
  */
 function getRandomNum(min, max)
 {
@@ -20,12 +20,16 @@ function getRandomNum(min, max)
     return (min + Math.round(rand * range));
 }
 
-function updateMcps(chart, config, dataLabels, aecMcps, nsMcps)
+/**
+ * @brief Update MCPS chart.
+ */
+function updateMcpsChart()
 {
-    if (config.data.datasets.length > 0)
+    if (mcpsChartConfig.data.datasets.length > 0)
     {
 
-        let last  = parseInt(dataLabels[dataLabels.length - 1]);
+        let last = parseInt(
+            mcpsChartData.timeLables[mcpsChartData.timeLables.length - 1]);
         let label = last + 1;
         if (last >= 9)
         {
@@ -33,23 +37,32 @@ function updateMcps(chart, config, dataLabels, aecMcps, nsMcps)
         }
         label = label + 's';
 
-        aecMcpsRandom = getRandomNum(100, 200);
-        nsMcpsRandom  = getRandomNum(10, 90);
+        mcpsChartData.timeLables.push(label);
+        mcpsChartData.aec.push(mcps.aec);
+        mcpsChartData.ns.push(mcps.ns);
+        mcpsChartData.peqUl.push(mcps.peqUl);
+        mcpsChartData.peqDl.push(mcps.peqDl);
+        mcpsChartData.mbdrc.push(mcps.mbdrc);
 
-        dataLabels.push(label);
-        aecMcps.push(aecMcpsRandom);
-        nsMcps.push(nsMcpsRandom);
+        mcpsChartData.timeLables.shift();
+        mcpsChartData.aec.shift();
+        mcpsChartData.ns.shift();
+        mcpsChartData.peqUl.shift();
+        mcpsChartData.peqDl.shift();
+        mcpsChartData.mbdrc.shift();
 
-        dataLabels.shift();
-        aecMcps.shift();
-        nsMcps.shift();
-
-        chart.update();
+        handleMcpsChart.update();
     }
 
-    let aecMcpsValue = "AEC MCPS: " + aecMcpsRandom + "MHz";
-    let nsMcpsValue  = "NS MCPS: " + nsMcpsRandom + "MHz";
+    let aecValue   = "AEC : " + mcps.aec + "MCPS";
+    let nsValue    = "NS : " + mcps.ns + "MCPS";
+    let peqUlValue = "PEQ_UL : " + mcps.peqUl + "MCPS";
+    let peqDlValue = "PEQ_DL : " + mcps.peqDl + "MCPS";
+    let mbdrcValue = "MBDRC : " + mcps.mbdrc + "MCPS";
 
-    document.getElementById("aec-mcps").textContent = aecMcpsValue;
-    document.getElementById("ns-mcps").textContent  = nsMcpsValue;
+    document.getElementById("aec-mcps").textContent    = aecValue;
+    document.getElementById("ns-mcps").textContent     = nsValue;
+    document.getElementById("peq-ul-mcps").textContent = peqUlValue;
+    document.getElementById("peq-dl-mcps").textContent = peqDlValue;
+    document.getElementById("mbdrc-mcps").textContent  = mbdrcValue;
 }

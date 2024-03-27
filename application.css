@@ -126,3 +126,101 @@
 #ns-mcps {
     color: rgb(75, 192, 192);
 }
+
+#peq-ul-mcps {
+    color: rgb(207, 154, 38);
+}
+
+#peq-dl-mcps {
+    color: rgb(13, 16, 219);
+}
+
+#mbdrc-mcps {
+    color: rgb(9, 212, 70);
+}
+
+/* bypass */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 65px;
+    height: 30px;
+}
+
+.switch input {display:none;}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 36px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(21px);
+    -ms-transform: translateX(21px);
+    transform: translateX(21px);
+}
+
+.on, .off {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    line-height: 1;
+}
+
+.on {
+    right: 43px;
+    color: #081520; /* Toggle the text color when on */
+    display: none; /* Initially hide */
+}
+
+.off {
+    left: 8px; /* Half the width of the slider minus half the width of the text, depending on the situation */
+    color: #ccc; /* Toggle the text color when off */
+}
+
+
+/* Displays the "ON" text when the switch is selected and hides the "OFF" text*/
+input:checked ~ .on {
+    display: block;
+}
+
+input:checked ~ .off {
+    display: none;
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 7px;
+}
+
+.slider.round:before {
+    border-radius: 20%;
+}
