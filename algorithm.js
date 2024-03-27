@@ -32,6 +32,14 @@ let DIRECTION = {
 };
 
 /**
+ * @brief Mode
+ */
+let MODE = {
+    MONO : 0,
+    STEREO : 1,
+};
+
+/**
  * @brief The port of austreamer element pad
  */
 let SNIFFER_INDEX = {
@@ -1146,6 +1154,7 @@ function snifferEnable(port, obj, enable, dir)
         break;
 
     case "ACORE_DSP_AEC_MIC_IN":
+    case "ACORE_DSP_AEC_MIC_OUT":
         acore_msg.pn_robj[0] = OBJ.ACORE_DSP_AEC;
         break;
 
@@ -1156,16 +1165,13 @@ function snifferEnable(port, obj, enable, dir)
             (SNIFFER_INDEX.PAD_1 << 2);
         break;
 
-    case "ACORE_DSP_AEC_OUT":
-        acore_msg.pn_robj[0] = OBJ.ACORE_DSP_AEC;
-        break;
-
     case "ACORE_DSP_NS_IN":
     case "ACORE_DSP_NS_OUT":
         acore_msg.pn_robj[0] = OBJ.ACORE_DSP_NS;
         break;
 
     default:
+        console.log("The wrong object.");
         return;
     }
 

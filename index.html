@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="main-content">
-      <h1>Audio Tool V1.0.1</h1>
+      <h1>Audio Tool V1.0.2</h1>
 <!-------------------------------------------------------------------------------------
 -
 -                                   Connect Function
@@ -31,6 +31,8 @@
 -
 --------------------------------------------------------------------------------------->
 <h2>-----------------------------------------------------------------------------------------------------------------------------------------</h2>
+      <h4>Uplink latency: 1.894ms</h4>
+      <h4>Downlink latency: 0.435ms</h4>
       <h4 id="aec-mcps"></h4>
       <h4 id="ns-mcps"></h4>
       <h4 id="peq-ul-mcps"></h4>
@@ -317,64 +319,64 @@
 --------------------------------------------------------------------------------------->
           <div class="form-section">
             <h3>Enable Audio Data Sniffer</h3>
+                <img src="algorithm_pipe.png" alt="Algorithm Pipe Framework">
                 <div>
-                    <input type="checkbox" id="ACORE_DSP_GAIN_IN" name="audio" value="input"/>
-                    <label for="ACORE_DSP_GAIN_IN">GAIN_IN</label>
+                    <input type="checkbox" id="ACORE_DSP_AEC_MIC_IN" name="audio" value="input"/>
+                    <label for="ACORE_DSP_AEC_MIC_IN">A</label>
 
-                    <input type="checkbox" id="ACORE_DSP_GAIN_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_GAIN_OUT">GAIN_OUT</label>
+                    <input type="checkbox" id="ACORE_DSP_AEC_MIC_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_AEC_MIC_OUT">C</label>
 
-                    <input type="checkbox" id="ACORE_DSP_AGC_IN" name="audio" value="input"/>
-                    <label for="ACORE_DSP_AGC_IN">AGC_IN</label>
+                    <input type="checkbox" id="ACORE_DSP_NS_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_NS_OUT">D</label>
+
+                    <input type="checkbox" id="ACORE_DSP_DRC_UL_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_DRC_UL_OUT">E</label>
+
+                    <input type="checkbox" id="ACORE_DSP_PEQ_UL_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_PEQ_UL_OUT">F</label>
 
                     <input type="checkbox" id="ACORE_DSP_AGC_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_AGC_OUT">AGC_OUT</label>
+                    <label for="ACORE_DSP_AGC_OUT">G</label><br><br>
+
+                    <input type="checkbox" id="ACORE_DSP_AEC_REF_IN" name="audio" value="input"/>
+                    <label for="ACORE_DSP_AEC_REF_IN">B</label>
+
+                    <input type="checkbox" id="ACORE_DSP_DRC_DL_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_DRC_DL_OUT">H</label>
+
+                    <input type="checkbox" id="ACORE_DSP_PEQ_DL_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_PEQ_DL_OUT">I</label>
+
+                    <input type="checkbox" id="ACORE_DSP_MBDRC_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_MBDRC_OUT">J</label>
+
+                    <input type="checkbox" id="ACORE_DSP_GAIN_OUT" name="audio" value="output"/>
+                    <label for="ACORE_DSP_GAIN_OUT">K</label>
+
+                    <input type="checkbox" id="ACORE_DSP_GAIN_IN" name="audio" value="input"/>
+                    <label for="ACORE_DSP_GAIN_IN">L</label>
+
+                    <!-- <input type="checkbox" id="ACORE_DSP_AGC_IN" name="audio" value="input"/>
+                    <label for="ACORE_DSP_AGC_IN">AGC_IN</label>
 
                     <input type="checkbox" id="ACORE_DSP_DRC_UL_IN" name="audio" value="input"/>
                     <label for="ACORE_DSP_DRC_UL_IN">DRC_UL_IN</label>
 
-                    <input type="checkbox" id="ACORE_DSP_DRC_UL_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_DRC_UL_OUT">DRC_UL_OUT</label>
-
                     <input type="checkbox" id="ACORE_DSP_DRC_DL_IN" name="audio" value="input"/>
                     <label for="ACORE_DSP_DRC_DL_IN">DRC_DL_IN</label>
-
-                    <input type="checkbox" id="ACORE_DSP_DRC_DL_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_DRC_DL_OUT">DRC_DL_OUT</label>
 
                     <input type="checkbox" id="ACORE_DSP_MBDRC_IN" name="audio" value="input"/>
                     <label for="ACORE_DSP_MBDRC_IN">MBDRC_IN</label>
 
-                    <input type="checkbox" id="ACORE_DSP_MBDRC_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_DRC_DL_OUT">MBDRC_OUT</label>
-
-                    <br><br>
                     <input type="checkbox" id="ACORE_DSP_PEQ_UL_IN" name="audio" value="input"/>
                     <label for="ACORE_DSP_PEQ_UL_IN">PEQ_UL_IN</label>
-
-                    <input type="checkbox" id="ACORE_DSP_PEQ_UL_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_PEQ_UL_OUT">PEQ_UL_OUT</label>
 
                     <input type="checkbox" id="ACORE_DSP_PEQ_DL_IN" name="audio" value="input"/>
                     <label for="ACORE_DSP_PEQ_DL_IN">PEQ_DL_IN</label>
 
-                    <input type="checkbox" id="ACORE_DSP_PEQ_DL_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_PEQ_DL_OUT">PEQ_DL_OUT</label>
-
-                    <input type="checkbox" id="ACORE_DSP_AEC_MIC_IN" name="audio" value="input"/>
-                    <label for="ACORE_DSP_AEC_MIC_IN">AEC_MIC_IN</label>
-
-                    <input type="checkbox" id="ACORE_DSP_AEC_REF_IN" name="audio" value="input"/>
-                    <label for="ACORE_DSP_AEC_REF_IN">AEC_REF_IN</label>
-
-                    <input type="checkbox" id="ACORE_DSP_AEC_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_AEC_MIC_OUT">AEC_OUT</label>
-
                     <input type="checkbox" id="ACORE_DSP_NS_IN" name="audio" value="input"/>
-                    <label for="ACORE_DSP_NS_IN">NS_IN</label>
-
-                    <input type="checkbox" id="ACORE_DSP_NS_OUT" name="audio" value="output"/>
-                    <label for="ACORE_DSP_NS_OUT">NS_OUT</label>
+                    <label for="ACORE_DSP_NS_IN">NS_IN</label> -->
                 </div>
           </div>
 

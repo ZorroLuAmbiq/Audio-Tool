@@ -58,7 +58,7 @@ async function binToRaw(buf, path)
 
         dir : new Uint8Array(1),   /**< Input data or output data */
         index : new Uint8Array(1), /**< Node index */
-        mode : new Uint8Array(1),  /**< Audio mode: stereo or mono */
+        mode : new Uint8Array(1), /**< Audio mode, mono : 0, stero ：1 */
         sample_rate : new Uint8Array(2), /**< Specific sample rate, bit field */
         length : new Uint8Array(2), /**< Pcm data length */
     };
@@ -85,23 +85,120 @@ async function binToRaw(buf, path)
             // Determine whether it is raw data
             if (raw_msg.msg_id[0] == HAL_Audio_Node_Data_Notify)
             {
-                let strSobj  = raw_msg.pn_sobj[0].toString();
-                let strDir   = raw_msg.dir[0].toString();
-                let strIndex = raw_msg.index[0].toString();
-                let strMode  = raw_msg.mode[0].toString();
+                let fileName;
+                let strMode;
+                let strSobj;
+                let strDir;
+                let strIndex;
+                switch (raw_msg.pn_sobj[0])
+                {
+                case OBJ.ACORE_DSP_AEC:
+                    if (raw_msg.dir[0] === DIRECTION.IN)
+                    {
+                        if (raw_msg.index[0] === SNIFFER_INDEX.PAD_0)
+                        {
+                            fileName = "A";
+                        }
+                        else if (raw_msg.index[0] === SNIFFER_INDEX.PAD_1)
+                        {
+                            fileName = "B";
+                        }
+                    }
+                    else if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "C";
+                    }
+                    break;
 
-                let sampleRate = 0;
-                sampleRate = BSTREAM_TO_UINT16(raw_msg.sample_rate);
+                case OBJ.ACORE_DSP_NS:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "D";
+                    }
+                    break;
+
+                case OBJ.ACORE_DSP_DRC_UL:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "E";
+                    }
+                    break;
+
+                case OBJ.ACORE_DSP_PEQ_UL:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "F";
+                    }
+                    break;
+
+                case OBJ.ACORE_DSP_AGC:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "G";
+                    }
+                    break;
+
+                case OBJ.ACORE_DSP_DRC_DL:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "H";
+                    }
+                    break;
+
+                case OBJ.ACORE_DSP_PEQ_DL:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "I";
+                    }
+                    break;
+
+                case OBJ.ACORE_DSP_MBDRC:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "J";
+                    }
+                    break;
+
+                case OBJ.ACORE_DSP_GAIN:
+                    if (raw_msg.dir[0] === DIRECTION.OUT)
+                    {
+                        fileName = "K";
+                    }
+                    else if (raw_msg.dir[0] === DIRECTION.IN)
+                    {
+                        fileName = "L";
+                    }
+                    break;
+
+                default:
+                    strSobj  = raw_msg.pn_sobj[0].toString();
+                    strDir   = raw_msg.dir[0].toString();
+                    strIndex = raw_msg.index[0].toString();
+                    fileName = strSobj + "_" + strDir + "_" + strIndex;
+                    break;
+                }
+
+                if (raw_msg.mode[0] === MODE.MONO)
+                {
+                    strMode = "1Ch";
+                }
+                else if (raw_msg.mode[0] === MODE.STEREO)
+                {
+                    strMode = "2Ch";
+                }
+
+                let sampleRate    = BSTREAM_TO_UINT16(raw_msg.sample_rate);
                 let strSampleRate = sampleRate.toString();
 
                 // Combined into a file name
-                let fileName = strSobj + "_" + strDir + "_" + strIndex + "_" +
-                               strMode + "_" + strSampleRate + ".pcm";
+                fileName = fileName + "_" + strMode + "_" + strSampleRate +
+                           "Hz" +
+                           ".pcm";
 
                 let fileFlag     = 0;
                 let audioDataLen = 0;
-                audioDataLen = BSTREAM_TO_UINT16(raw_msg.length);
-                let audioData = new Uint8Array(
+                audioDataLen     = BSTREAM_TO_UINT16(raw_msg.length);
+                let audioData    = new Uint8Array(
                     buf.slice(frameEnd, frameEnd + audioDataLen));
 
                 for (let i = 0; i < fileNameList.length; i++)
@@ -151,8 +248,7 @@ async function binToRaw(buf, path)
         }
 
         // raw_msg.pn_length is the length of (frame - 6).
-        let len = 0;
-        len = BSTREAM_TO_UINT16(raw_msg.pn_length);
+        let len = BSTREAM_TO_UINT16(raw_msg.pn_length);
         len += PHONET_LEN_OFFSET;
         frameStart += len;
         frameEnd += len;
