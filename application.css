@@ -224,3 +224,16 @@ input:checked ~ .off {
 .slider.round:before {
     border-radius: 20%;
 }
+
+/* Hide player function*/
+#pcm_file{
+    display: none;
+}
+
+#start_play_button{
+    display: none;
+}
+
+#stop_play_button{
+    display: none;
+}

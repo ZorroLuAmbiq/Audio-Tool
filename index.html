@@ -55,31 +55,33 @@
 --------------------------------------------------------------------------------------->
       <div class="container">
         <div class="sender">
-          <div class="form-section">
-            <h3>Gain</h3>
-            <label for="gain_bypass">Bypass : </label>
-            <label class="switch">
-                <input type="checkbox" id="gain_bypass">
-                <span class="slider round"></span>
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
-            </label><br><br>
-            <label for="name">Gain (-30~20): </label>
-            <input type="number" id="gain" name="gain" min="-30" max="20" value="0"/>
-          </div>
 
-          <div class="form-section">
-            <button id="gain_send">Send</button>
-          </div><br>
+          <h3>AEC</h3>
+          <label for="aec_bypass">Bypass : </label>
+          <label class="switch">
+            <input type="checkbox" id="aec_bypass">
+            <span class="slider round"></span>
+            <span class="on">ON</span>
+            <span class="off">OFF</span>
+          </label><br><br>
+
+          <h3>NS</h3>
+          <label for="ns_bypass">Bypass : </label>
+          <label class="switch">
+            <input type="checkbox" id="ns_bypass">
+            <span class="slider round"></span>
+            <span class="on">ON</span>
+            <span class="off">OFF</span>
+          </label><br><br>
 
           <div class="form-section">
             <h3>DRC_UL</h3>
             <label for="drc_ul_bypass">Bypass : </label>
             <label class="switch">
-                <input type="checkbox" id="drc_ul_bypass">
-                <span class="slider round"></span>
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
+              <input type="checkbox" id="drc_ul_bypass">
+              <span class="slider round"></span>
+              <span class="on">ON</span>
+              <span class="off">OFF</span>
             </label><br><br>
             <label for="title">DRC Attack Time (4~200): </label>
             <input type="number" id="DrcUlAttackTime" name="DRC_UL_Attack_Time" min="4" max="200" value="10"/>
@@ -92,112 +94,18 @@
             <br><br><label for="title">DRC Slope (0.01~1.0): </label>
             <input type="number" id="DrcUlSlope" name="DRC_UL_Slope" step="0.01" min="0.01" max="1" value="0.1"/>
           </div>
-
           <div class="form-section">
             <button id="drc_ul_send">Send</button>
-          </div><br>
-
-          <div class="form-section">
-            <h3>DRC_DL</h3>
-            <label for="drc_dl_bypass">Bypass : </label>
-            <label class="switch">
-                <input type="checkbox" id="drc_dl_bypass">
-                <span class="slider round"></span>
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
-            </label><br><br>
-            <label for="title">DRC Attack Time (4~200): </label>
-            <input type="number" id="DrcDlAttackTime" name="DRC_DL_Attack_Time" min="4" max="200" value="10"/>
-            <br><br><label for="title">DRC Decay Time (4~200): </label>
-            <input type="number" id="DrcDlDecayTime" name="DRC_DL_Decay_Time" min="4" max="200" value="110"/>
-            <br><br><label for="title">DRC Knee Threshold (-30~-10): </label>
-            <input type="number" id="DrcDlKneeThreshold" name="DRC_DL_Knee_Threshold" min="-30" max="-10" value="-10"/>
-            <br><br><label for="title">DRC Noise Gate (-80~-25): </label>
-            <input type="number" id="DrcDlNoiseGate" name="DRC_DL_Noise_Gate" min="-80" max="-25" value="-30"/>
-            <br><br><label for="title">DRC Slope (0.01~1.0): </label>
-            <input type="number" id="DrcDlSlope" name="DRC_DL_Slope" step="0.01" min="0.01" max="1" value="0.1"/>
-          </div>
-
-          <div class="form-section">
-            <button id="drc_dl_send">Send</button>
-          </div><br>
-
-          <div class="form-section">
-            <h3>MBDRC</h3>
-            <label for="mbdrc_bypass">Bypass : </label>
-            <label class="switch">
-                <input type="checkbox" id="mbdrc_bypass">
-                <span class="slider round"></span>
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
-            </label><br><br>
-            <label for="title">Band Number (1~9): </label>
-            <input type="number" id="MbdrcBandNumber" name="Band_Number" min="1" max="9" value="4"/>
-            <br><br><label for="title">Frequency High Bound(0~8000): </label>
-            <input type="number" id="MbdrcHighBound0" name="MbdrcHighBound" min="0" max="8000" value="200"/>
-            <input type="number" id="MbdrcHighBound1" name="MbdrcHighBound" min="0" max="8000" value="2000"/>
-            <input type="number" id="MbdrcHighBound2" name="MbdrcHighBound" min="0" max="8000" value="3500"/>
-            <input type="number" id="MbdrcHighBound3" name="MbdrcHighBound" min="0" max="8000" value="8000"/>
-            <input type="number" id="MbdrcHighBound4" name="MbdrcHighBound" min="0" max="8000" value="0"/>
-            <input type="number" id="MbdrcHighBound5" name="MbdrcHighBound" min="0" max="8000" value="0"/>
-            <input type="number" id="MbdrcHighBound6" name="MbdrcHighBound" min="0" max="8000" value="0"/>
-            <input type="number" id="MbdrcHighBound7" name="MbdrcHighBound" min="0" max="8000" value="0"/>
-            <input type="number" id="MbdrcHighBound8" name="MbdrcHighBound" min="0" max="8000" value="0"/>
-            <br><br><label for="title">Compress Threshold (-100~0): </label>
-            <input type="number" id="MbdrcCompThd0" name="MbdrcCompThd" step="1" min="-100" max="0" value="-20"/>
-            <input type="number" id="MbdrcCompThd1" name="MbdrcCompThd" step="1" min="-100" max="0" value="-12"/>
-            <input type="number" id="MbdrcCompThd2" name="MbdrcCompThd" step="1" min="-100" max="0" value="-20"/>
-            <input type="number" id="MbdrcCompThd3" name="MbdrcCompThd" step="1" min="-100" max="0" value="-30"/>
-            <input type="number" id="MbdrcCompThd4" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
-            <input type="number" id="MbdrcCompThd5" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
-            <input type="number" id="MbdrcCompThd6" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
-            <input type="number" id="MbdrcCompThd7" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
-            <input type="number" id="MbdrcCompThd8" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
-            <br><br><label for="title">Compress Slope (0~1.0): </label>
-            <input type="number" id="MbdrcCompSlope0" name="MbdrcCompSlope" min="0" max="1.0" value="0.2"/>
-            <input type="number" id="MbdrcCompSlope1" name="MbdrcCompSlope" min="0" max="1.0" value="0.3"/>
-            <input type="number" id="MbdrcCompSlope2" name="MbdrcCompSlope" min="0" max="1.0" value="0.5"/>
-            <input type="number" id="MbdrcCompSlope3" name="MbdrcCompSlope" min="0" max="1.0" value="0.7"/>
-            <input type="number" id="MbdrcCompSlope4" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
-            <input type="number" id="MbdrcCompSlope5" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
-            <input type="number" id="MbdrcCompSlope6" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
-            <input type="number" id="MbdrcCompSlope7" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
-            <input type="number" id="MbdrcCompSlope8" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
-          </div>
-
-          <div class="form-section">
-            <button id="mbdrc_send">Send</button>
-          </div><br>
-
-          <div class="form-section">
-            <h3>AGC</h3>
-            <label for="agc_bypass">Bypass : </label>
-            <label class="switch">
-                <input type="checkbox" id="agc_bypass">
-                <span class="slider round"></span>
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
-            </label><br><br>
-            <label for="title">AGC Attack Time (4~200): </label>
-            <input type="number" id="AgcAttackTime" name="AGC_Attack_Time" min="4" max="200" value="10"/>
-            <br><br><label for="title">AGC Decay Time (4~200): </label>
-            <input type="number" id="AgcDecayTime" name="AGC_Decay_Time" min="4" max="200" value="200"/>
-            <br><br><label for="title">AGC Target (10000~30000): </label>
-            <input type="number" id="AgcTarget" name="AGC_Target" min="10000" max="30000" value="15000"/>
-          </div>
-
-          <div class="form-section">
-            <button id="agc_send">Send</button>
           </div><br>
 
           <div class="form-section">
             <h3>PEQ_UL</h3>
             <label for="peq_ul_bypass">Bypass : </label>
             <label class="switch">
-                <input type="checkbox" id="peq_ul_bypass">
-                <span class="slider round"></span>
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
+              <input type="checkbox" id="peq_ul_bypass">
+              <span class="slider round"></span>
+              <span class="on">ON</span>
+              <span class="off">OFF</span>
             </label><br><br>
             <label for="title">Band Number (1~9): </label>
             <input type="number" id="peq_ul_band_number" name="peq_ul_band_number" min="1" max="9" value="9"/>
@@ -232,19 +140,101 @@
             <input type="number" id="peq_ul_band_gain_7" name="peq_ul_band_gain" min="-10" max="10" value="2"/>
             <input type="number" id="peq_ul_band_gain_8" name="peq_ul_band_gain" min="-10" max="10" value="2"/>
           </div>
-
           <div class="form-section">
             <button id="peq_ul_send">Send</button>
+          </div><br>
+
+          <div class="form-section">
+            <h3>AGC</h3>
+            <label for="agc_bypass">Bypass : </label>
+            <label class="switch">
+              <input type="checkbox" id="agc_bypass">
+              <span class="slider round"></span>
+              <span class="on">ON</span>
+              <span class="off">OFF</span>
+            </label><br><br>
+            <label for="title">AGC Attack Time (4~200): </label>
+            <input type="number" id="AgcAttackTime" name="AGC_Attack_Time" min="4" max="200" value="10"/>
+            <br><br><label for="title">AGC Decay Time (4~200): </label>
+            <input type="number" id="AgcDecayTime" name="AGC_Decay_Time" min="4" max="200" value="200"/>
+            <br><br><label for="title">AGC Target (10000~30000): </label>
+            <input type="number" id="AgcTarget" name="AGC_Target" min="10000" max="30000" value="15000"/>
+          </div>
+          <div class="form-section">
+            <button id="agc_send">Send</button>
+          </div><br>
+
+          <!-- Downlink -->
+          <div class="form-section">
+            <h3>Gain</h3>
+            <label for="gain_bypass">Bypass : </label>
+            <label class="switch">
+              <input type="checkbox" id="gain_bypass">
+              <span class="slider round"></span>
+              <span class="on">ON</span>
+              <span class="off">OFF</span>
+            </label><br><br>
+            <label for="name">Gain (-30~20): </label>
+            <input type="number" id="gain" name="gain" min="-30" max="20" value="0"/>
+          </div>
+          <div class="form-section">
+            <button id="gain_send">Send</button>
+          </div><br>
+
+          <div class="form-section">
+            <h3>MBDRC</h3>
+            <label for="mbdrc_bypass">Bypass : </label>
+            <label class="switch">
+              <input type="checkbox" id="mbdrc_bypass">
+              <span class="slider round"></span>
+              <span class="on">ON</span>
+              <span class="off">OFF</span>
+            </label><br><br>
+            <label for="title">Band Number (1~9): </label>
+            <input type="number" id="MbdrcBandNumber" name="Band_Number" min="1" max="9" value="4"/>
+            <br><br><label for="title">Frequency High Bound(0~8000): </label>
+            <input type="number" id="MbdrcHighBound0" name="MbdrcHighBound" min="0" max="8000" value="200"/>
+            <input type="number" id="MbdrcHighBound1" name="MbdrcHighBound" min="0" max="8000" value="2000"/>
+            <input type="number" id="MbdrcHighBound2" name="MbdrcHighBound" min="0" max="8000" value="3500"/>
+            <input type="number" id="MbdrcHighBound3" name="MbdrcHighBound" min="0" max="8000" value="8000"/>
+            <input type="number" id="MbdrcHighBound4" name="MbdrcHighBound" min="0" max="8000" value="0"/>
+            <input type="number" id="MbdrcHighBound5" name="MbdrcHighBound" min="0" max="8000" value="0"/>
+            <input type="number" id="MbdrcHighBound6" name="MbdrcHighBound" min="0" max="8000" value="0"/>
+            <input type="number" id="MbdrcHighBound7" name="MbdrcHighBound" min="0" max="8000" value="0"/>
+            <input type="number" id="MbdrcHighBound8" name="MbdrcHighBound" min="0" max="8000" value="0"/>
+            <br><br><label for="title">Compress Threshold (-100~0): </label>
+            <input type="number" id="MbdrcCompThd0" name="MbdrcCompThd" step="1" min="-100" max="0" value="-20"/>
+            <input type="number" id="MbdrcCompThd1" name="MbdrcCompThd" step="1" min="-100" max="0" value="-12"/>
+            <input type="number" id="MbdrcCompThd2" name="MbdrcCompThd" step="1" min="-100" max="0" value="-20"/>
+            <input type="number" id="MbdrcCompThd3" name="MbdrcCompThd" step="1" min="-100" max="0" value="-30"/>
+            <input type="number" id="MbdrcCompThd4" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
+            <input type="number" id="MbdrcCompThd5" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
+            <input type="number" id="MbdrcCompThd6" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
+            <input type="number" id="MbdrcCompThd7" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
+            <input type="number" id="MbdrcCompThd8" name="MbdrcCompThd" step="1" min="-100" max="0" value="0"/>
+            <br><br><label for="title">Compress Slope (0~1.0): </label>
+            <input type="number" id="MbdrcCompSlope0" name="MbdrcCompSlope" min="0" max="1.0" value="0.2"/>
+            <input type="number" id="MbdrcCompSlope1" name="MbdrcCompSlope" min="0" max="1.0" value="0.3"/>
+            <input type="number" id="MbdrcCompSlope2" name="MbdrcCompSlope" min="0" max="1.0" value="0.5"/>
+            <input type="number" id="MbdrcCompSlope3" name="MbdrcCompSlope" min="0" max="1.0" value="0.7"/>
+            <input type="number" id="MbdrcCompSlope4" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
+            <input type="number" id="MbdrcCompSlope5" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
+            <input type="number" id="MbdrcCompSlope6" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
+            <input type="number" id="MbdrcCompSlope7" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
+            <input type="number" id="MbdrcCompSlope8" name="MbdrcCompSlope" min="0" max="1.0" value="0"/>
+          </div>
+          <div class="form-section">
+            <button id="mbdrc_send">Send</button>
           </div><br>
 
           <div class="form-section">
             <h3>PEQ_DL</h3>
             <label for="peq_dl_bypass">Bypass : </label>
             <label class="switch">
-                <input type="checkbox" id="peq_dl_bypass">
-                <span class="slider round"></span>
-                <span class="on">ON</span>
-                <span class="off">OFF</span>
+              <input type="checkbox" id="peq_dl_bypass">
+              <span class="slider round"></span>
+              <span class="on">ON</span>
+              <span class="off">OFF</span>
             </label><br><br>
             <label for="title">Band Number (1~9): </label>
             <input type="number" id="peq_dl_band_number" name="peq_dl_band_number" min="1" max="9" value="9"/>
@@ -279,36 +269,41 @@
             <input type="number" id="peq_dl_band_gain_7" name="peq_dl_band_gain" min="-10" max="10" value="0"/>
             <input type="number" id="peq_dl_band_gain_8" name="peq_dl_band_gain" min="-10" max="10" value="0"/>
           </div>
-
           <div class="form-section">
             <button id="peq_dl_send">Send</button>
           </div><br><br>
 
-          <h3>AEC</h3>
-          <label for="aec_bypass">Bypass : </label>
-          <label class="switch">
-              <input type="checkbox" id="aec_bypass">
+          <div class="form-section">
+            <h3>DRC_DL</h3>
+            <label for="drc_dl_bypass">Bypass : </label>
+            <label class="switch">
+              <input type="checkbox" id="drc_dl_bypass">
               <span class="slider round"></span>
               <span class="on">ON</span>
               <span class="off">OFF</span>
-          </label><br><br>
-
-          <h3>NS</h3>
-          <label for="ns_bypass">Bypass : </label>
-          <label class="switch">
-              <input type="checkbox" id="ns_bypass">
-              <span class="slider round"></span>
-              <span class="on">ON</span>
-              <span class="off">OFF</span>
-          </label><br><br>
+            </label><br><br>
+            <label for="title">DRC Attack Time (4~200): </label>
+            <input type="number" id="DrcDlAttackTime" name="DRC_DL_Attack_Time" min="4" max="200" value="10"/>
+            <br><br><label for="title">DRC Decay Time (4~200): </label>
+            <input type="number" id="DrcDlDecayTime" name="DRC_DL_Decay_Time" min="4" max="200" value="110"/>
+            <br><br><label for="title">DRC Knee Threshold (-30~-10): </label>
+            <input type="number" id="DrcDlKneeThreshold" name="DRC_DL_Knee_Threshold" min="-30" max="-10" value="-10"/>
+            <br><br><label for="title">DRC Noise Gate (-80~-25): </label>
+            <input type="number" id="DrcDlNoiseGate" name="DRC_DL_Noise_Gate" min="-80" max="-25" value="-30"/>
+            <br><br><label for="title">DRC Slope (0.01~1.0): </label>
+            <input type="number" id="DrcDlSlope" name="DRC_DL_Slope" step="0.01" min="0.01" max="1" value="0.1"/>
+          </div>
+          <div class="form-section">
+            <button id="drc_dl_send">Send</button>
+          </div><br>
 
           <h3>IIR_FILTER</h3>
-          <label for="ns_bypass">Bypass : </label>
+          <label for="iir_filter_bypass">Bypass : </label>
           <label class="switch">
-              <input type="checkbox" id="iir_filter_bypass">
-              <span class="slider round"></span>
-              <span class="on">ON</span>
-              <span class="off">OFF</span>
+            <input type="checkbox" id="iir_filter_bypass">
+            <span class="slider round"></span>
+            <span class="on">ON</span>
+            <span class="off">OFF</span>
           </label><br><br>
 
 <h2>-----------------------------------------------------------------------------------------------------------------------------------------</h2>
@@ -403,7 +398,7 @@
 -
 --------------------------------------------------------------------------------------->
             <div class="form-section"></div>
-                <h3>Player</h3>
+                <!-- <h3>Player</h3> -->
                 <input type="file" id="pcm_file" name="pcm_file" accept=".pcm"/>
                 <button id=start_play_button>Start playing</button>
                 <button id=stop_play_button>Stop playing</button>
