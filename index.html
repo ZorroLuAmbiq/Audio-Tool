@@ -10,7 +10,7 @@
     <script src="log.js"></script>
     <script src="mcps.js"></script>
     <script src="parameters.js"></script>
-    <script src="https://cdn.staticfile.org/Chart.js/3.9.1/chart.js"></script>
+    <script src="chart_v3.9.1.js"></script>
     <link rel="stylesheet" href="application.css">
   </head>
   <body>
@@ -31,21 +31,26 @@
 -
 --------------------------------------------------------------------------------------->
 <h2>-----------------------------------------------------------------------------------------------------------------------------------------</h2>
-      <h4>Uplink latency: 1.894ms</h4>
-      <h4>Downlink latency: 0.435ms</h4>
+      <h4>Uplink Latency: 14 ms  </h4>
+      <h4>Downlink latency: 8 ms</h4>
+      <h4>Uplink MCPS: 45.5</h4>
+      <h4>Downlink MCPS: 9.5</h4>
       <h4 id="aec-mcps"></h4>
       <h4 id="ns-mcps"></h4>
       <h4 id="peq-ul-mcps"></h4>
       <h4 id="peq-dl-mcps"></h4>
       <h4 id="mbdrc-mcps"></h4>
-      <div class="mcps-chart">
-        <canvas id="McpsChart" width="650" height="290"></canvas>
-      </div><br>
-      <div class="form-section">
-        <button id="start_mcps">Start Reading</button>
-      </div><br>
-      <div class="form-section">
-        <button id="stop_mcps">Stop Reading</button>
+
+      <button id="show_popup">Realtime MCPS</button>
+      <div id="overlay">
+        <div class="popup">
+          <div class="mcps-chart">
+            <canvas id="McpsChart" width="650" height="290"></canvas>
+          </div>
+          <div class="popup_btn">
+            <button id="hide_popup">close</button>
+          </div>
+        </div>
       </div>
 <h2>-----------------------------------------------------------------------------------------------------------------------------------------</h2>
 <!-------------------------------------------------------------------------------------
@@ -56,7 +61,7 @@
       <div class="container">
         <div class="sender">
 
-          <h3>AEC</h3>
+          <h3>Uplink AEC</h3>
           <label for="aec_bypass">Bypass : </label>
           <label class="switch">
             <input type="checkbox" id="aec_bypass">
@@ -65,7 +70,7 @@
             <span class="off">OFF</span>
           </label><br><br>
 
-          <h3>NS</h3>
+          <h3>Uplink NS</h3>
           <label for="ns_bypass">Bypass : </label>
           <label class="switch">
             <input type="checkbox" id="ns_bypass">
@@ -75,7 +80,7 @@
           </label><br><br>
 
           <div class="form-section">
-            <h3>DRC_UL</h3>
+            <h3>Uplink DRC</h3>
             <label for="drc_ul_bypass">Bypass : </label>
             <label class="switch">
               <input type="checkbox" id="drc_ul_bypass">
@@ -99,7 +104,7 @@
           </div><br>
 
           <div class="form-section">
-            <h3>PEQ_UL</h3>
+            <h3>Uplink PEQ</h3>
             <label for="peq_ul_bypass">Bypass : </label>
             <label class="switch">
               <input type="checkbox" id="peq_ul_bypass">
@@ -145,7 +150,7 @@
           </div><br>
 
           <div class="form-section">
-            <h3>AGC</h3>
+            <h3>Uplink AGC</h3>
             <label for="agc_bypass">Bypass : </label>
             <label class="switch">
               <input type="checkbox" id="agc_bypass">
@@ -166,7 +171,7 @@
 
           <!-- Downlink -->
           <div class="form-section">
-            <h3>Gain</h3>
+            <h3>Downlink Gain</h3>
             <label for="gain_bypass">Bypass : </label>
             <label class="switch">
               <input type="checkbox" id="gain_bypass">
@@ -182,7 +187,7 @@
           </div><br>
 
           <div class="form-section">
-            <h3>MBDRC</h3>
+            <h3>Downlink MBDRC</h3>
             <label for="mbdrc_bypass">Bypass : </label>
             <label class="switch">
               <input type="checkbox" id="mbdrc_bypass">
@@ -228,7 +233,7 @@
           </div><br>
 
           <div class="form-section">
-            <h3>PEQ_DL</h3>
+            <h3>Downlink PEQ</h3>
             <label for="peq_dl_bypass">Bypass : </label>
             <label class="switch">
               <input type="checkbox" id="peq_dl_bypass">
@@ -274,7 +279,7 @@
           </div><br><br>
 
           <div class="form-section">
-            <h3>DRC_DL</h3>
+            <h3>Downlink DRC</h3>
             <label for="drc_dl_bypass">Bypass : </label>
             <label class="switch">
               <input type="checkbox" id="drc_dl_bypass">
@@ -297,7 +302,7 @@
             <button id="drc_dl_send">Send</button>
           </div><br>
 
-          <h3>IIR_FILTER</h3>
+          <h3>Downlink IIR FILTER</h3>
           <label for="iir_filter_bypass">Bypass : </label>
           <label class="switch">
             <input type="checkbox" id="iir_filter_bypass">
@@ -313,7 +318,7 @@
 -
 --------------------------------------------------------------------------------------->
           <div class="form-section">
-            <h3>Enable Audio Data Sniffer</h3>
+            <h3>Audio Data Capture</h3>
                 <img src="algorithm_pipe.png" alt="Algorithm Pipe Framework">
                 <div>
                     <input type="checkbox" id="ACORE_DSP_AEC_MIC_IN" name="audio" value="input"/>
@@ -376,20 +381,20 @@
           </div>
 
             <div class="form-section">
-                <button id="sniffer_send">Send</button>
+                <button id="sniffer_send">Enable Selected Capture Point</button>
             </div>
 
             <div class="form-section">
-                <h3>Capture Audio Data</h3>
-                <br><button id=select_path_button>Select Path</button><br>
+                <br><button id=select_path_button>Select path for capture data</button><br>
                 <br><button id=start_capture_button>Start capturing</button><br>
                 <br><button id=stop_capture_button>Stop capturing</button><br>
             </div>
 
             <div class="form-section">
-                <h3>Parse</h3>
-                <input type="file" id="bin_file" name="bin_file" accept=".bin"/>
-                <button id=parse_bin_file_button>Select Path</button><br><br>
+                <h3>Parse capture data to PCM</h3>
+                Select capture data
+                <input type="file" id="bin_file" name="bin_file" accept=".bin" />
+                <button id=parse_bin_file_button>Parse PCM to</button><br><br>
             </div>
 <h2>-----------------------------------------------------------------------------------------------------------------------------------------</h2>
 <!-------------------------------------------------------------------------------------

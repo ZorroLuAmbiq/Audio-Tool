@@ -14,7 +14,9 @@
 
 window.file = null;
 let handleMcpsChart;
-let playInterval     = {id : 0};
+// Player timer.
+let playInterval = {id : 0};
+// Read MCPS timer.
 let mcpsInterval     = {id : 0};
 let function_modules = AUDIO_TOOL.NULL;
 

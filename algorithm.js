@@ -1527,12 +1527,6 @@ function readMcps(port, object)
  */
 function updateMcps(port)
 {
-    if (!port)
-    {
-        log("Please check WebUSB connection.");
-        return;
-    }
-
     readMcps(port, OBJ.ACORE_DSP_AEC);
     readMcps(port, OBJ.ACORE_DSP_NS);
     readMcps(port, OBJ.ACORE_DSP_PEQ_UL);

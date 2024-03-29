@@ -33,7 +33,12 @@ document.addEventListener('DOMContentLoaded', event => {
                 };
                 port.onReceiveError = error => {
                     console.error(error);
+                    log("webUSB disconnect.");
+
                     cleanStatus();
+                    connectButton.textContent = 'Connect';
+                    statusDisplay.textContent = '';
+                    port                      = null;
                 };
             },
             error => {
@@ -75,17 +80,27 @@ document.addEventListener('DOMContentLoaded', event => {
     document.getElementById("peq-dl-mcps").textContent = "PEQ_DL : 0MCPS";
     document.getElementById("mbdrc-mcps").textContent  = "MBDRC : 0MCPS";
 
-    // Invoked when Start Reading Button is clicked
-    document.querySelector("#start_mcps").onclick = () => {
-        // Update MCPS every 1 second.
+    // Invoked when Read MCPS Button is clicked
+    document.querySelector("#show_popup").onclick = () => {
+        let overlay           = document.getElementById("overlay");
+        overlay.style.display = "block";
+
+        if (!port)
+        {
+            log("Failed to read MCPS, please check WebUSB connection.");
+            return;
+        }
         mcpsInterval.id = setInterval(updateMcps, 1000, port);
     };
 
-    // Invoked when Stop Reading Button is clicked
-    document.querySelector("#stop_mcps").onclick = () => {
-        // Update MCPS every 1 second.
+    // Invoked when Close Button is clicked
+    document.querySelector("#hide_popup").onclick = () => {
+        // Clear MCPS interval.
         clearInterval(mcpsInterval.id);
         mcpsInterval.id = null;
+
+        let overlay           = document.getElementById("overlay");
+        overlay.style.display = "none";
     };
 
     // Invoked when GAIN Bypass Checkbox is selected.

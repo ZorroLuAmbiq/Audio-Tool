@@ -237,3 +237,75 @@ input:checked ~ .off {
 #stop_play_button{
     display: none;
 }
+
+#overlay {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    /* Internet Explorer below 9 does not support rgba mode */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Compatible with Internet Explorer 8 and below */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7f000000,endColorstr=#7f000000);
+    display: none;
+}
+
+.popup {
+    background-color: #ffffff;
+    max-width: 800px;
+    min-width: 200px;
+    height: 480px;
+    border-radius: 5px;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.popup_title {
+    height: 60px;
+    line-height: 60px;
+    border-bottom: solid 1px #cccccc;
+}
+
+.popup_content {
+    height: 50px;
+    line-height: 50px;
+    padding: 15px 20px;
+}
+
+.popup_btn {
+    padding-bottom: 10px;
+}
+
+.popup_btn button {
+    color: #778899;
+    width: 15%;
+    height: 20px;
+    cursor: pointer;
+    border: solid 1px #cccccc;
+    border-radius: 5px;
+    margin: 130px 10px;
+    color: #ffffff;
+    background-color: #337ab7;
+}
+
+#aec-mcps {
+    display: none;
+}
+
+#ns-mcps {
+    display: none;
+}
+
+#peq-ul-mcps {
+    display: none;
+}
+
+#peq-dl-mcps {
+    display: none;
+}
+
+#mbdrc-mcps {
+    display: none;
+}
