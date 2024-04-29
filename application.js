@@ -104,154 +104,167 @@ document.addEventListener('DOMContentLoaded', event => {
     };
 
     // Invoked when GAIN Bypass Checkbox is selected.
-    document.querySelector("#gain_bypass")
-        .addEventListener("change", function(event) {
-            if (event.target.checked)
-            {
-                console.log("gain enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_GAIN, true);
-            }
-            else
-            {
-                console.log("gain disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_GAIN, false);
-            }
-        });
+    document.querySelector("#gain").addEventListener("change", function(event) {
+        if (event.target.checked)
+        {
+            console.log("Enable GAIN.");
+            setBypass(port, OBJ.ACORE_DSP_GAIN, false);
+        }
+        else
+        {
+            console.log("Disable GAIN.");
+            setBypass(port, OBJ.ACORE_DSP_GAIN, true);
+        }
+    });
 
     // Invoked when DRC_UL Bypass Checkbox is selected
-    document.querySelector("#drc_ul_bypass")
-        .addEventListener("change", function(event) {
+    document.querySelector("#drc_ul").addEventListener(
+        "change", function(event) {
             if (event.target.checked)
             {
-                console.log("drc_ul enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_DRC_UL, true);
+                console.log("Enable DRC UL.");
+                setBypass(port, OBJ.ACORE_DSP_DRC_UL, false);
             }
             else
             {
-                console.log("drc_ul disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_DRC_UL, false);
+                console.log("Disable DRC UL.");
+                setBypass(port, OBJ.ACORE_DSP_DRC_UL, true);
             }
         });
 
     // Invoked when DRC_DL Bypass Checkbox is selected
-    document.querySelector("#drc_dl_bypass")
-        .addEventListener("change", function(event) {
+    document.querySelector("#drc_dl").addEventListener(
+        "change", function(event) {
             if (event.target.checked)
             {
-                console.log("drc_dl enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_DRC_DL, true);
+                console.log("Enable DRC DL.");
+                setBypass(port, OBJ.ACORE_DSP_DRC_DL, false);
             }
             else
             {
-                console.log("drc_dl disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_DRC_DL, false);
+                console.log("Disable DRC DL.");
+                setBypass(port, OBJ.ACORE_DSP_DRC_DL, true);
             }
         });
 
     // Invoked when MBDRC Bypass Checkbox is selected
-    document.querySelector("#mbdrc_bypass")
-        .addEventListener("change", function(event) {
+    document.querySelector("#mbdrc").addEventListener(
+        "change", function(event) {
             if (event.target.checked)
             {
-                console.log("mbdrc enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_MBDRC, true);
+                console.log("Enable mbdrc.");
+                setBypass(port, OBJ.ACORE_DSP_MBDRC, false);
             }
             else
             {
-                console.log("mbdrc disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_MBDRC, false);
+                console.log("Disable mbdrc.");
+                setBypass(port, OBJ.ACORE_DSP_MBDRC, true);
             }
         });
 
     // Invoked when AGC Bypass Checkbox is selected
-    document.querySelector("#agc_bypass")
-        .addEventListener("change", function(event) {
-            if (event.target.checked)
-            {
-                console.log("agc enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_AGC, true);
-            }
-            else
-            {
-                console.log("agc disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_AGC, false);
-            }
-        });
+    document.querySelector("#agc").addEventListener("change", function(event) {
+        if (event.target.checked)
+        {
+            console.log("Enable AGC.");
+            setBypass(port, OBJ.ACORE_DSP_AGC, false);
+        }
+        else
+        {
+            console.log("Disable AGC.");
+            setBypass(port, OBJ.ACORE_DSP_AGC, true);
+        }
+    });
 
     // Invoked when PEQ_UL Bypass Checkbox is selected
-    document.querySelector("#peq_ul_bypass")
-        .addEventListener("change", function(event) {
+    document.querySelector("#peq_ul").addEventListener(
+        "change", function(event) {
             if (event.target.checked)
             {
-                console.log("peq_ul enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_PEQ_UL, true);
+                console.log("Enable PEQ UL.");
+                setBypass(port, OBJ.ACORE_DSP_PEQ_UL, false);
             }
             else
             {
-                console.log("peq_ul disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_PEQ_UL, false);
+                console.log("Disable PEQ UL.");
+                setBypass(port, OBJ.ACORE_DSP_PEQ_UL, true);
             }
         });
 
     // Invoked when PEQ_DL Bypass Checkbox is selected
-    document.querySelector("#peq_dl_bypass")
-        .addEventListener("change", function(event) {
+    document.querySelector("#peq_dl").addEventListener(
+        "change", function(event) {
             if (event.target.checked)
             {
-                console.log("peq_dl enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_PEQ_DL, true);
+                console.log("Enable PEQ DL.");
+                setBypass(port, OBJ.ACORE_DSP_PEQ_DL, false);
             }
             else
             {
-                console.log("peq_dl disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_PEQ_DL, false);
+                console.log("Disable PEQ DL.");
+                setBypass(port, OBJ.ACORE_DSP_PEQ_DL, true);
             }
         });
 
     // Invoked when AEC Bypass Checkbox is selected
-    document.querySelector("#aec_bypass")
-        .addEventListener("change", function(event) {
-            if (event.target.checked)
-            {
-                console.log("aec enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_AEC, true);
-            }
-            else
-            {
-                console.log("agc disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_AEC, false);
-            }
-        });
+    document.querySelector("#aec").addEventListener("change", function(event) {
+        if (event.target.checked)
+        {
+            console.log("Enable AEC.");
+            setBypass(port, OBJ.ACORE_DSP_AEC, false);
+        }
+        else
+        {
+            console.log("Disable AEC.");
+            setBypass(port, OBJ.ACORE_DSP_AEC, true);
+        }
+    });
 
     // Invoked when NS Bypass Checkbox is selected
-    document.querySelector("#ns_bypass")
+    document.querySelector("#ns").addEventListener("change", function(event) {
+        if (event.target.checked)
+        {
+            console.log("Enable NS.");
+            setBypass(port, OBJ.ACORE_DSP_NS, false);
+        }
+        else
+        {
+            console.log("Disable NS.");
+            setBypass(port, OBJ.ACORE_DSP_NS, true);
+        }
+    });
+
+    // Invoked when IIR_FILTER Bypass Checkbox is selected
+    document.querySelector("#iir_filter")
         .addEventListener("change", function(event) {
             if (event.target.checked)
             {
-                console.log("ns enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_NS, true);
+                console.log("Enable IIR FILTER.");
+                setBypass(port, OBJ.ACORE_DSP_IIR_FILTER, false);
             }
             else
             {
-                console.log("ns disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_NS, false);
+                setBypass(port, OBJ.ACORE_DSP_IIR_FILTER, true);
+                console.log("Disable IIR FILTER.");
             }
         });
 
-    // Invoked when IIR_FILTER Bypass Checkbox is selected
-    document.querySelector("#iir_filter_bypass")
-        .addEventListener("change", function(event) {
-            if (event.target.checked)
-            {
-                console.log("iir_filter enable bypass");
-                setBypass(port, OBJ.ACORE_DSP_IIR_FILTER, true);
-            }
-            else
-            {
-                console.log("iir_filter disable bypass");
-                setBypass(port, OBJ.ACORE_DSP_IIR_FILTER, false);
-            }
-        });
+    // Invoked when Aec Send Button is clicked
+    document.querySelector("#aec_send").onclick = () => {
+        // AEC
+        let filter_len  = document.querySelector("#filter_len").value;
+        let fixed_delay = document.querySelector("#fixed_delay").value;
+        let nlp         = document.querySelector("#aec_nlp");
+        let level       = document.querySelector("#aec_nlp_level").value;
+        setAec(port, filter_len, fixed_delay, nlp.checked, level);
+    };
+
+    // Invoked when Ns Send Button is clicked
+    document.querySelector("#ns_send").onclick = () => {
+        // NS
+        let level = document.querySelector("#ns_level").value;
+        setNs(port, level);
+    };
 
     // Invoked when Send Button is clicked
     document.querySelector("#gain_send").onclick = () => {
@@ -331,17 +344,9 @@ document.addEventListener('DOMContentLoaded', event => {
         setPeq(port, dir, bandNumber, bandCenterFreq, bandQfactor, bandGain);
     };
 
-    // Invoked when Send Button is clicked
-    document.querySelector("#sniffer_send").onclick = () => {
-        // Sniffer Audio Data
-        let audio = document.getElementsByName("audio");
-        setSniffer(port, audio);
-    };
-
     const selectPathButton   = document.querySelector("#select_path_button");
     const startCaptureButton = document.querySelector("#start_capture_button");
     const stopCaptureButton  = document.querySelector("#stop_capture_button");
-    const parseBinFileButton = document.querySelector("#parse_bin_file_button");
     const startPlayButton    = document.querySelector("#start_play_button");
     const stopPlayButton     = document.querySelector("#stop_play_button");
 
@@ -352,62 +357,57 @@ document.addEventListener('DOMContentLoaded', event => {
     // Invoked when Select Path Button is clicked
     selectPathButton.addEventListener(
         "click", (async () => {
-            const directoryHandle = await window.showDirectoryPicker();
-            const fileHandle      = await directoryHandle.getFileHandle(
+            snifferDirectoryHandle = await window.showDirectoryPicker();
+            snifferFileHandle = await      snifferDirectoryHandle.getFileHandle(
                 "audio.bin", {create : true});
-            file = await fileHandle.createWritable();
+            snifferFile = await snifferFileHandle.createWritable();
 
-            window.file                 = file;
             startCaptureButton.disabled = !1;
+
+            // Enable Selected Capture Points
+            let audio = document.getElementsByName("audio");
+            setSniffer(port, audio);
             log("The path of audio data has been selected.")
         }))
 
     // Invoked when Start Capture Button is clicked
     startCaptureButton.addEventListener("click", (() => {
-                                            if (window.file)
+                                            if (snifferFile)
                                             {
                                                 snifferActive(port, true);
+                                                snifferState = SNIFFER.ENABLE;
                                                 stopCaptureButton.disabled = !1;
                                             }
                                         }))
 
     // Invoked when Stop Capture Button is clicked
     stopCaptureButton.addEventListener(
-        "click", (() => {
-            if (window.file)
+        "click", (async () => {
+            if (snifferFile)
             {
-                window.file.close();
-                window.file = null;
+                snifferState = SNIFFER.DISABLE;
+                await snifferFile.close();
             }
 
             // Stop capturing data
             snifferActive(port, false);
-            stopCaptureButton.disabled = !0,
-            log("Your microphone audio has been successfully sniffed locally.")
-        }))
 
-    // Invoked when Parse Bin File Button is clicked
-    parseBinFileButton.addEventListener(
-        "click", (async () => {
-            const binFile    = document.getElementById('bin_file');
-            const pathHandle = await window.showDirectoryPicker();
-
-            const file   = binFile.files[0];
             const reader = new FileReader();
-
-            if (!file)
-            {
-                console.log("Please add bin file");
-                return;
-            }
-
+            let file     = await snifferFileHandle.getFile();
             // File read complete
             reader.onload = () => {
                 console.log(reader.result);
                 // Parse bin file to pcm file
-                binToRaw(reader.result, pathHandle);
+                binToRaw(reader.result, snifferDirectoryHandle);
+            };
+
+            reader.onerror = (event) => {
+                console.log("Failed to read sniffer file : " + event);
             };
             reader.readAsArrayBuffer(file);
+            startCaptureButton.disabled = !0;
+            stopCaptureButton.disabled  = !0,
+            log("Your microphone audio has been successfully sniffed locally.")
         }))
 
     // Invoked when Start Play Button is clicked

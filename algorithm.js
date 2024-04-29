@@ -79,12 +79,11 @@ function UINT32_TO_BSTREAM(n, p)
 }
 
 /**
- * @brief Macros for converting a big endian byte stream to integers, with
+ * @brief Convert a big endian byte stream to integers, with
  * increment.
  * @param p The big endian byte stream.
- * @param n The integers.
  */
-function BSTREAM_TO_UINT16(p, n)
+function BSTREAM_TO_UINT16(p)
 {
     return (p[0] << 8) | p[1];
 }
@@ -154,7 +153,8 @@ let HAL_Audio_SB_Bypass                      = 0x0036;
 let HAL_Audio_SB_UL_MBDRC_Bound_High         = 0x001c;
 let HAL_Audio_SB_UL_MBDRC_Compress_Threshold = 0x001d;
 let HAL_Audio_SB_UL_MBDRC_Compress_Slope     = 0x001e;
-
+let HAL_Audio_SB_UL_NS_LEVEL                 = 0x001f;
+let HAL_Audio_SB_UL_AEC                      = 0x0020;
 /**
  * @brief Phonet protocol header length offset
  */
@@ -173,6 +173,237 @@ function setMsg(sbMsg, settings)
         let array = settings[prop];
         sbMsg.set(array, offset);
         offset += array.BYTES_PER_ELEMENT * array.length;
+    }
+}
+
+/**
+ * @brief Transfer AEC parameter via serial port
+ * @param port The port of serial
+ * @param filter_len_str The AEC filter length.
+ * @param fixed_delay_str The AEC fixed delay.
+ * @param nlp_enable_str The AEC NLP state.
+ * @param nlp_level_str The AEC NLP level.
+ */
+function setAec(port, filter_len_str, fixed_delay_str, nlp_enable_str,
+                nlp_level_str)
+{
+    if (!port)
+    {
+        log("Please check WebUSB connection.");
+        return;
+    }
+
+    console.log("set Aec Filter Length: [" + filter_len_str + "]\n");
+    console.log("set Aec Fixed Delay: [" + fixed_delay_str + "]\n");
+    console.log("set Aec Nlp Enable: [" + nlp_enable_str + "]\n");
+    console.log("set Aec Nlp level: [" + nlp_level_str + "]\n");
+
+    // Coverts the string to a decimal int
+    let filter_len = parseInt(filter_len_str, 10);
+    // 32 bytes * 4ms / 2 bytes.
+    filter_len      = filter_len * 32 * 4 / 2;
+    let fixed_delay = parseInt(fixed_delay_str, 10);
+    let nlp_level   = parseInt(nlp_level_str, 10);
+
+    let frameTypeSize  = 2;
+    let numOfSubblocks = 1;
+    let frameType      = new Uint8Array(frameTypeSize);
+
+    // Audio core message format
+    let acore_msg = {
+        pn_media : new Uint8Array(1), /**< Media type (link-layer identifier) */
+        pn_rdev : new Uint8Array(1),  /**< Receiver device ID */
+        pn_sdev : new Uint8Array(1),  /**< Sender device ID */
+        pn_res : new Uint8Array(1),   /**< Resource ID or function */
+        pn_length :
+            new Uint8Array(2), /**< Big-endian message byte length (minus 6) */
+        pn_robj : new Uint8Array(1),  /**< Receiver object ID */
+        pn_sobj : new Uint8Array(1),  /**< Sender object ID */
+        trans_id : new Uint8Array(1), /**< Transaction id */
+        msg_id : new Uint8Array(1),   /**< Message id */
+        num_of_subblocks :
+            new Uint8Array(2), /**< Number of sub blocks to be request */
+    };
+
+    // Audio sub block AGC attack time
+    let aec = {
+        block_id : new Uint8Array(2),    /**< Block id */
+        block_len : new Uint8Array(2),   /**< Block length */
+        enable : new Uint8Array(2),      /**< AEC enable */
+        filter_len : new Uint8Array(2),  /**< Filter length */
+        fixed_delay : new Uint8Array(2), /**< Fixed_delay */
+        nlp_enable : new Uint8Array(2),  /**< NLP enable */
+        nlp_level : new Uint8Array(2),   /**< NLP level */
+
+    };
+
+    // Count aec size
+    let aec_size = 0;
+    for (let prop in aec)
+    {
+        let array = aec[prop];
+        aec_size += array.BYTES_PER_ELEMENT * array.length;
+    }
+
+    // count acore_msg size
+    let acore_msg_size = 0;
+    for (let prop in acore_msg)
+    {
+        let array = acore_msg[prop];
+        acore_msg_size += array.BYTES_PER_ELEMENT * array.length;
+    }
+
+    // The length of audio core message
+    let pnLength = acore_msg_size + aec_size - PHONET_LEN_OFFSET;
+
+    // Set the type of Frame
+    let totalBytes = pnLength + frameTypeSize + PHONET_LEN_OFFSET;
+
+    // Set the type of Frame
+    UINT16_TO_BSTREAM(FRAME_TYPE.ACORE_MESSAGE, frameType);
+
+    // Set the parameters of acore_msg
+    acore_msg.pn_rdev[0] = MSG_EP_AGENT.DSP;
+    acore_msg.pn_sdev[0] = MSG_EP_AGENT.DSP;
+    UINT16_TO_BSTREAM(pnLength, acore_msg.pn_length);
+    acore_msg.pn_robj[0] = OBJ.ACORE_DSP_AEC;
+    acore_msg.pn_sobj[0] = OBJ.ACORE_TOOL;
+    acore_msg.msg_id[0]  = HAL_Audio_HW_Control_Request;
+    UINT16_TO_BSTREAM(numOfSubblocks, acore_msg.num_of_subblocks);
+
+    // Set the parameters of agc_attack_time
+    UINT16_TO_BSTREAM(HAL_Audio_SB_UL_AEC, aec.block_id);
+    UINT16_TO_BSTREAM(aec_size, aec.block_len);
+    UINT16_TO_BSTREAM(true, aec.enable);
+    UINT16_TO_BSTREAM(filter_len, aec.filter_len);
+    UINT16_TO_BSTREAM(filter_len, aec.filter_len);
+    UINT16_TO_BSTREAM(fixed_delay, aec.fixed_delay);
+    UINT16_TO_BSTREAM(nlp_enable_str, aec.nlp_enable);
+    UINT16_TO_BSTREAM(nlp_level, aec.nlp_level);
+
+    // copy acore_msg data to acoreMsg
+    let acoreMsg = new Uint8Array(acore_msg_size);
+    setMsg(acoreMsg, acore_msg);
+
+    // copy aec data to aecMsg
+    let aecMsg = new Uint8Array(aec_size);
+    setMsg(aecMsg, aec);
+
+    // Combine messages to one frame
+    let frame = new Uint8Array(totalBytes);
+    frame.set(frameType, 0);
+    frame.set(acoreMsg, frameType.length);
+    frame.set(aecMsg, frameType.length + acoreMsg.length);
+
+    console.log(frame);
+    if (port)
+    {
+        port.send(frame);
+    }
+}
+
+/**
+ * @brief Transfer NS parameter via serial port
+ * @param port The port of serial
+ * @param ns_level The NS level.
+ */
+function setNs(port, ns_level_str)
+{
+    if (!port)
+    {
+        log("Please check WebUSB connection.");
+        return;
+    }
+
+    console.log("set NS Level Length: [" + ns_level_str + "]\n");
+
+    // Coverts the string to a decimal int
+    let ns_level = parseInt(ns_level_str, 10);
+
+    let frameTypeSize  = 2;
+    let numOfSubblocks = 1;
+    let frameType      = new Uint8Array(frameTypeSize);
+
+    // Audio core message format
+    let acore_msg = {
+        pn_media : new Uint8Array(1), /**< Media type (link-layer identifier) */
+        pn_rdev : new Uint8Array(1),  /**< Receiver device ID */
+        pn_sdev : new Uint8Array(1),  /**< Sender device ID */
+        pn_res : new Uint8Array(1),   /**< Resource ID or function */
+        pn_length :
+            new Uint8Array(2), /**< Big-endian message byte length (minus 6) */
+        pn_robj : new Uint8Array(1),  /**< Receiver object ID */
+        pn_sobj : new Uint8Array(1),  /**< Sender object ID */
+        trans_id : new Uint8Array(1), /**< Transaction id */
+        msg_id : new Uint8Array(1),   /**< Message id */
+        num_of_subblocks :
+            new Uint8Array(2), /**< Number of sub blocks to be request */
+    };
+
+    // Audio sub block AGC attack time
+    let ns = {
+        block_id : new Uint8Array(2),  /**< Block id */
+        block_len : new Uint8Array(2), /**< Block length */
+        level : new Uint8Array(2),     /**< NS level */
+    };
+
+    // Count ns size
+    let ns_size = 0;
+    for (let prop in ns)
+    {
+        let array = ns[prop];
+        ns_size += array.BYTES_PER_ELEMENT * array.length;
+    }
+
+    // count acore_msg size
+    let acore_msg_size = 0;
+    for (let prop in acore_msg)
+    {
+        let array = acore_msg[prop];
+        acore_msg_size += array.BYTES_PER_ELEMENT * array.length;
+    }
+
+    // The length of audio core message
+    let pnLength = acore_msg_size + ns_size - PHONET_LEN_OFFSET;
+
+    // Set the type of Frame
+    let totalBytes = pnLength + frameTypeSize + PHONET_LEN_OFFSET;
+
+    // Set the type of Frame
+    UINT16_TO_BSTREAM(FRAME_TYPE.ACORE_MESSAGE, frameType);
+
+    // Set the parameters of acore_msg
+    acore_msg.pn_rdev[0] = MSG_EP_AGENT.DSP;
+    acore_msg.pn_sdev[0] = MSG_EP_AGENT.DSP;
+    UINT16_TO_BSTREAM(pnLength, acore_msg.pn_length);
+    acore_msg.pn_robj[0] = OBJ.ACORE_DSP_NS;
+    acore_msg.pn_sobj[0] = OBJ.ACORE_TOOL;
+    acore_msg.msg_id[0]  = HAL_Audio_HW_Control_Request;
+    UINT16_TO_BSTREAM(numOfSubblocks, acore_msg.num_of_subblocks);
+
+    // Set the parameters of agc_attack_time
+    UINT16_TO_BSTREAM(HAL_Audio_SB_UL_NS_LEVEL, ns.block_id);
+    UINT16_TO_BSTREAM(ns_size, ns.block_len);
+    UINT16_TO_BSTREAM(ns_level, ns.level);
+
+    // copy acore_msg data to acoreMsg
+    let acoreMsg = new Uint8Array(acore_msg_size);
+    setMsg(acoreMsg, acore_msg);
+
+    // copy ns data to nsMsg
+    let nsMsg = new Uint8Array(ns_size);
+    setMsg(nsMsg, ns);
+
+    // Combine messages to one frame
+    let frame = new Uint8Array(totalBytes);
+    frame.set(frameType, 0);
+    frame.set(acoreMsg, frameType.length);
+    frame.set(nsMsg, frameType.length + acoreMsg.length);
+
+    console.log(frame);
+    if (port)
+    {
+        port.send(frame);
     }
 }
 
@@ -1250,7 +1481,7 @@ function snifferEnable(port, obj, enable, dir)
 function snifferActive(port, active)
 {
     let numOfSub      = 1;
-    let snifferState  = 0;
+    let pointState    = 0;
     let frameTypeSize = 2;
     let frameType     = new Uint8Array(frameTypeSize);
 
@@ -1261,12 +1492,12 @@ function snifferActive(port, active)
 
     if (active === true)
     {
-        snifferState     = 1;
+        pointState       = 1;
         function_modules = AUDIO_TOOL.FILE;
     }
     else if (active === false)
     {
-        snifferState     = 0;
+        pointState       = 0;
         function_modules = AUDIO_TOOL.NULL;
     }
 
@@ -1320,7 +1551,7 @@ function snifferActive(port, active)
 
     UINT16_TO_BSTREAM(HAL_Audio_SB_Sniffer_Activate, sniffer_active.block_id);
     UINT16_TO_BSTREAM(sniffer_active_size, sniffer_active.block_len);
-    UINT16_TO_BSTREAM(snifferState, sniffer_active.active);
+    UINT16_TO_BSTREAM(pointState, sniffer_active.active);
 
     // copy acore_msg data to acoreMsg
     let acoreMsg = new Uint8Array(acore_msg_size);
@@ -1534,18 +1765,6 @@ function updateMcps(port)
     readMcps(port, OBJ.ACORE_DSP_MBDRC);
 }
 
-/**
- * @brief Write data into the local file.
- */
-function writeBuf(buf)
-{
-    if (window.file)
-    {
-        console.log("buf.byteLength " + buf.byteLength);
-        window.file.write(buf);
-    }
-};
-
 function parseMsg(buf)
 {
     let acore_msg = {
@@ -1628,10 +1847,10 @@ function receiveMsg(buf)
 {
     if (function_modules === AUDIO_TOOL.FILE)
     {
-        if (window.file)
+        if (snifferState === SNIFFER.ENABLE)
         {
             console.log("buf.byteLength " + buf.byteLength);
-            window.file.write(buf);
+            snifferFile.write(buf);
         }
     }
     else
